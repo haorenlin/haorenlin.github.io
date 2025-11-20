@@ -15,7 +15,7 @@
             justify-content: center;
             align-items: center;
             color: #333;
-            padding: 10px;
+            padding: 15px;
         }
 
         .kline-bg {
@@ -35,7 +35,7 @@
             background: rgba(255, 255, 255, 0.98);
             width: 100%;
             max-width: 380px;
-            padding: 25px 20px;
+            padding: 25px 20px 20px;
             border-radius: 20px;
             text-align: center;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
@@ -50,13 +50,13 @@
             font-size: 16px;
             font-weight: bold;
             display: inline-block;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             box-shadow: 0 3px 10px rgba(255, 107, 107, 0.4);
         }
 
         .emoji-icon { 
             font-size: 50px; 
-            margin-bottom: 10px; 
+            margin-bottom: 8px; 
             display: block; 
             animation: bounce 2s infinite; 
         }
@@ -74,13 +74,16 @@
             font-size: 14px; 
             font-weight: normal; 
             color: #7f8c8d; 
-            margin-bottom: 15px; 
+            margin-bottom: 12px; 
+            border-bottom: 1px dashed #dcdcdc; 
+            padding-bottom: 10px; 
+            display: inline-block;
         }
 
         .countdown-tip {
             font-size: 13px; 
             color: #666; 
-            margin: 8px 0 15px 0;
+            margin: 8px 0 12px 0;
         }
 
         /* 紧凑版倒计时 */
@@ -88,8 +91,8 @@
             display: flex;
             justify-content: center;
             gap: 6px;
-            margin: 15px 0;
-            padding: 15px 10px;
+            margin: 15px 0 18px;
+            padding: 12px 10px;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             border-radius: 12px;
             border: 2px solid #e0e0e0;
@@ -115,13 +118,42 @@
             margin-top: 3px;
         }
 
-        /* 紧凑内容区域 */
+        /* 市场提示 */
+        .market-tip {
+            background: rgba(42, 82, 152, 0.08);
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin: 15px 0 18px;
+            border-left: 3px solid #2a5298;
+            font-size: 13px;
+            color: #2a5298;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .market-tip .highlight {
+            background: linear-gradient(45deg, #00c853, #00e676);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        /* 内容区域 */
         .content { 
             text-align: left; 
             margin: 0 auto; 
             width: 95%; 
             line-height: 1.6; 
             font-size: 14px; 
+            color: #444; 
+        }
+        
+        .intro-text {
+            margin-bottom: 15px; 
+            text-align: center; 
+            color: #555;
+            font-style: italic;
+            line-height: 1.5;
         }
         
         .highlight { 
@@ -134,28 +166,20 @@
         .row { 
             margin-bottom: 10px; 
             display: flex; 
-            align-items: center; 
+            align-items: flex-start; 
             padding: 6px 8px;
         }
         
+        .row:hover {
+            background: rgba(42, 82, 152, 0.03);
+            border-radius: 6px;
+        }
+        
         .label { 
-            min-width: 25px; 
+            min-width: 28px; 
             color: #2a5298; 
             font-size: 14px;
             margin-right: 8px;
-        }
-
-        /* 精简市场提示 */
-        .market-tip {
-            background: rgba(42, 82, 152, 0.08);
-            padding: 10px 12px;
-            border-radius: 10px;
-            margin: 15px 0;
-            border-left: 3px solid #2a5298;
-            font-size: 13px;
-            color: #2a5298;
-            text-align: center;
-            line-height: 1.4;
         }
 
         /* 按钮 */
@@ -163,7 +187,7 @@
             display: block;
             width: 100%;
             padding: 14px;
-            margin-top: 20px;
+            margin: 18px 0 12px;
             background: linear-gradient(45deg, #e74c3c, #c0392b);
             color: white;
             text-decoration: none;
@@ -172,6 +196,15 @@
             font-size: 16px;
             box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
             transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .btn::before {
+            content: '📈';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
         }
         
         .btn:active { 
@@ -179,7 +212,6 @@
         }
 
         .footer-tip {
-            margin-top: 15px;
             font-size: 11px;
             color: #888;
             line-height: 1.4;
@@ -188,6 +220,14 @@
         @keyframes bounce {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-5px) rotate(5deg); }
+        }
+
+        /* 超小屏适配 */
+        @media (max-height: 700px) {
+            .card { padding: 20px 18px 15px; }
+            #countdown-container { margin: 12px 0 15px; padding: 10px 8px; }
+            .market-tip { margin: 12px 0 15px; }
+            .btn { margin: 15px 0 10px; }
         }
     </style>
 </head>
@@ -206,35 +246,44 @@
         <div id="countdown-container"></div>
 
         <div class="market-tip">
-            <span class="highlight">基本面优秀</span> · <span class="highlight">技术面突破</span><br>
-            目标收益：<strong>快乐100%</strong>
+            本次聚会 <span class="highlight">基本面优秀</span>，<span class="highlight">技术面突破</span>，<br>
+            建议<strong>重仓参与</strong>，目标收益：快乐100% 📊
         </div>
 
         <div class="content">
+            <p class="intro-text">
+                "好公司需要时间，好朋友需要相聚"<br>
+                生活除了K线，还有兄弟和酒局 🍻
+            </p>
+
             <div class="row">
                 <span class="label">📅</span>
-                <span>2025.11.22 (周六) 18:00</span>
+                <span><strong>2025年11月22日 (周六)</strong> - 黄金交易日</span>
+            </div>
+            <div class="row">
+                <span class="label">⏰</span>
+                <span class="highlight">18:00 准时高开</span>
             </div>
             <div class="row">
                 <span class="label">📍</span>
-                <span>深圳宝安坪洲 · 多头阵地</span>
-            </div>
-            <div class="row">
-                <span class="label">👥</span>
-                <span>携带家眷 · <span class="highlight">扩大资金规模</span></span>
+                <span>深圳 · 宝安坪洲 · 多头阵地</span>
             </div>
             <div class="row">
                 <span class="label">💡</span>
                 <span>价值投资 / 情绪博弈 / 板块轮动</span>
             </div>
+            <div class="row">
+                <span class="label">🎯</span>
+                <span>携带家眷 - <strong>扩大资金规模</strong></span>
+            </div>
         </div>
 
         <a href="https://uri.amap.com/marker?position=113.8666,22.5666&name=宝安坪洲&callnative=1" class="btn" target="_blank">
-            查看导航位置 🗺️
+            查看导航位置
         </a>
         
         <div class="footer-tip">
-            ⚠️ 感情需要长期持有，聚会拒绝踏空<br>
+            ⚠️ 投资提示：感情需要长期持有，聚会拒绝踏空<br>
             📞 操盘手：群内随时联系
         </div>
     </div>
@@ -249,7 +298,7 @@
 
             if (distance < 0) {
                 countdownElement.style.background = 'linear-gradient(135deg, #00c853, #00e676)';
-                countdownElement.innerHTML = `<div style="font-size:14px; color:white; font-weight:bold;">🎉 涨停！聚会开始！</div>`;
+                countdownElement.innerHTML = `<div style="font-size:14px; color:white; font-weight:bold;">🎉 涨停！聚会已开始！干杯！ 🎉</div>`;
                 clearInterval(timerInterval);
                 return;
             }
