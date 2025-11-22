@@ -216,6 +216,37 @@
             color: #888;
             line-height: 1.4;
         }
+        /* 地图选择弹窗 */
+        .map-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .map-options {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .map-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: linear-gradient(45deg, #2a5298, #1e3c72);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+        }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -278,10 +309,10 @@
             </div>
         </div>
 
-        <a href="https://3gimg.qq.com/lightmap/v1/marker/index.html?marker=coord:22.5666,113.8666;title:聚餐地点;addr:畔山湘·湖南地方土菜馆(西乡店)" class="btn" target="_blank">
-        <!-- <a href="https://uri.amap.com/marker?position=113.8666,22.5666&name=宝安坪洲&callnative=1" class="btn" target="_blank"> -->
-            查看导航位置
-        </a> 
+        <a href="#" class="btn" onclick="showMapOptions()">
+            查看导航位置 🗺️
+        </a>
+        
         <div class="footer-tip">
             ⚠️ 投资提示：感情需要长期持有，聚会拒绝踏空<br>
             📞 操盘手：群内随时联系
@@ -314,6 +345,38 @@
                 `<div class="timer-unit">${String(minutes).padStart(2, '0')}<small>分</small></div>` + 
                 `<div class="timer-unit">${String(seconds).padStart(2, '0')}<small>秒</small></div>`;
         }
+// <a href="https://3gimg.qq.com/lightmap/v1/marker/index.html?marker=coord:22.5666,113.8666;title:聚餐地点;addr:畔山湘·湖南地方土菜馆(西乡店)" class="btn" target="_blank">
+//         <!-- <a href="https://uri.amap.com/marker?position=113.8666,22.5666&name=宝安坪洲&callnative=1" class="btn" target="_blank"> -->
+//             查看导航位置
+//         </a> 
+        // 添加地图选择功能
+            function showMapOptions() {
+                const modal = document.createElement('div');
+                modal.className = 'map-modal';
+                modal.innerHTML = `
+                    <div class="map-options">
+                        <h3 style="margin-bottom: 20px;">选择导航地图</h3>
+                        <a href="https://uri.amap.com/marker?position=113.8666,22.5666&name=畔山湘·湖南地方土菜馆(西乡店)&callnative=1" class="map-btn" target="_blank">
+                            🗺️ 高德地图
+                        </a>
+                        <a href="https://3gimg.qq.com/lightmap/v1/marker/index.html?marker=coord:22.5666,113.8666;title:时间玫瑰聚会;addr:畔山湘·湖南地方土菜馆(西乡店)" class="map-btn" target="_blank">
+                            🗺️ 腾讯地图
+                        </a>
+                        <button onclick="this.closest('.map-modal').remove()" style="margin-top: 15px; padding: 8px 20px; background: #ccc; border: none; border-radius: 15px;">
+                            取消
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                modal.style.display = 'flex';
+                
+                // 点击背景关闭
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+            }
 
         updateCountdown();
         const timerInterval = setInterval(updateCountdown, 1000);
